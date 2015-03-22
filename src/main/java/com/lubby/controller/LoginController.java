@@ -4,14 +4,21 @@ import com.google.gson.Gson;
 import com.lubby.bean.Response;
 import com.lubby.bean.User;
 import com.lubby.service.UserService;
+
 import java.util.ArrayList;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-//@Controller
+@Controller
+//@SessionAttributes("currentUser")
 @RequestMapping({ "/login" })
 public class LoginController {
 	Gson gson = new Gson();
@@ -26,7 +33,7 @@ public class LoginController {
 
 	@RequestMapping({ "/loginCheck" })
 	@ResponseBody
-	public Response<User> loginCheck(String userName, String password, Model model) {
+	public Response<User> loginCheck(String userName, String password, Model model,HttpSession session) {
 		Response<User> response = new Response();
 		User user = this.userService.loginCheck(userName, password);
 		ArrayList<User> list = null;
@@ -38,13 +45,20 @@ public class LoginController {
 		} else {
 			response.setErrorMessage("密码错误!");
 		}
+		session.setAttribute("currentUser", user);
+		model.addAttribute("currentUser", user);
 		return response;
 	}
-
-	@RequestMapping({ "/hello" })
-	public String hello(String userName, Model model) {
-		model.addAttribute("userName", userName);
-
-		return "hello";
+	@RequestMapping("/loginOut")
+	public String loginOut(Model model,HttpSession session){
+		session.removeAttribute("currentUser");
+		return "redirect:/login";
 	}
+
+//	@RequestMapping({ "/hello" })
+//	public String hello(String userName, Model model) {
+//		model.addAttribute("userName", userName);
+//
+//		return "hello";
+//	}
 }

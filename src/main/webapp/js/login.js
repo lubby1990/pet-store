@@ -10,7 +10,7 @@ $(document).ready(function() {
 		}, function(data) {
 			if (data.success) {
 				
-				window.location.href = basePath + "login/hello?userName=" + data.data[0].userName;
+				window.location.href = basePath + "list/hello?userName=" + data.data[0].userName;
 			} else {
 				$("#message").html(data.errorMessage);
 			}
