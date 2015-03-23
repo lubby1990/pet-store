@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.lubby.bean.Response;
 import com.lubby.bean.User;
 import com.lubby.service.UserService;
+import com.lubby.util.MD5Util;
 
 import java.util.ArrayList;
 
@@ -34,11 +35,12 @@ public class LoginController {
 	@RequestMapping({ "/loginCheck" })
 	@ResponseBody
 	public Response<User> loginCheck(String userName, String password, Model model,HttpSession session) {
-		Response<User> response = new Response();
-		User user = this.userService.loginCheck(userName, password);
+		Response<User> response = new Response<User>();
+		String passwordMD5 = MD5Util.getMD5(password + userName);
+		User user = this.userService.loginCheck(userName, passwordMD5);
 		ArrayList<User> list = null;
 		if (user != null) {
-			list = new ArrayList();
+			list = new ArrayList<User>();
 			list.add(user);
 			response.setData(list);
 			response.setSuccess(true);

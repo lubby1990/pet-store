@@ -10,4 +10,9 @@ public class MainController {
 	public String showPage() {
 		return "hello";
 	}
+	
+	@RequestMapping("/hello2")
+	public String showPage2() {
+		return "hello2";
+	}
 }

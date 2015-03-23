@@ -16,18 +16,19 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO;
 
 	public boolean addUser(User user) {
-		return this.userDAO.addUser(user).booleanValue();
+		return this.userDAO.addUser(user);
 	}
 
 	public List<User> getAllUser(String userName) {
 		return this.userDAO.getAllUser(userName);
 	}
 
-	public User getUserByUserName(String userName) {
-		return this.userDAO.getUserByUserName(userName);
-	}
 
 	public User loginCheck(String userName, String password) {
 		return this.userDAO.getUserByUserNameAndPassWord(userName, password);
+	}
+	
+	public User getUserByUserName (String userName){
+		return this.userDAO.getUserByUserName(userName);
 	}
 }

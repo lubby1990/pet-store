@@ -46,7 +46,34 @@ public class UserDAO {
 	}
 
 	public User getUserByUserName(String userName) {
-		return null;
+		User user = null;
+		List<User> list = new ArrayList();
+		String sql = "select * from t_user where user_name = ? ";
+		try {
+			PreparedStatement ps = this.dbUtil.getConnection().prepareStatement(sql);
+			ps.setString(1, userName);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				String userId = rs.getString(1);
+				String uName = rs.getString(2);
+				String uPassword = rs.getString(3);
+				String nickName = rs.getString(4);
+
+				String gender = rs.getString(5);
+				String address = rs.getString(6);
+				String nation = rs.getString(7);
+				Gender genderE = StringUtils.isNotBlank(gender) ?   Gender.valueOf(gender) : null;
+				user = new User(userId, uName, uPassword, nickName, genderE, address, nation);
+				list.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (list.size() == 0) {
+			return null;
+		}
+		return (User) list.get(0);
 	}
 
 	public User getUserByUserNameAndPassWord(String userName, String password) {
@@ -81,27 +108,25 @@ public class UserDAO {
 		return (User) list.get(0);
 	}
 
-	public Boolean addUser(User user) {
-		List<User> list = new ArrayList();
+	public boolean addUser(User user) {
 		int result = 0;
-		String sql = "insert into t_user (user_name,password ,nick_name,gender,address,nation) values(?,?,?,?,?,?);";
+		String sql = "insert into t_user (user_name,password ,nick_name,gender,address,nation) values(?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = this.dbUtil.getConnection().prepareStatement(sql);
 			ps.setString(1, user.getUserName());
 			ps.setString(2, user.getPassword());
-			ps.setString(3, user.getUserName());
-			ps.setString(4, user.getNickName());
-			ps.setString(5, user.getGender().getDescription());
-			ps.setString(6, user.getAddress());
-			ps.setString(7, user.getNation());
+			ps.setString(3, user.getNickName());
+			ps.setString(4, user.getGender().name());
+			ps.setString(5, user.getAddress());
+			ps.setString(6, user.getNation());
 
-			result = ps.executeUpdate(sql);
+			result = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (result != 0) {
-			return Boolean.valueOf(true);
+		if (result == 1) {
+			return true;
 		}
-		return Boolean.valueOf(false);
+		return false;
 	}
 }
