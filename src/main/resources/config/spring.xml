@@ -55,6 +55,7 @@
 		<!-- 1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程 -->
 		<property name="minEvictableIdleTimeMillis" value="10000" />
 		<property name="validationQuery" value="select * from t_user limit 1" />
+<!-- 		<property name="defaultAutoCommit" value="false"></property> -->
 	</bean>
 	<!-- <bean id="user" class="com.lubby.bean.User"></bean> -->
 	<!-- <bean id="cat" class="com.lubby.bean.SingleCat" factory-method="getInstance" 
@@ -62,5 +63,6 @@
 	<bean id="dbUtil" class="com.lubby.db.DBUtil">
 		<constructor-arg ref="dataSource" />
 	</bean>
+
 
 </beans>

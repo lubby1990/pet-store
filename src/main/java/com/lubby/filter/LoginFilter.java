@@ -40,7 +40,7 @@ public class LoginFilter implements Filter {
 		}
 
 		// check the cookie if not add the cookie
-		Cookie[] cookies = httpReq.getCookies();
+	/*	Cookie[] cookies = httpReq.getCookies();
 		boolean haveCookie = false;
 		for (Cookie k : cookies) {
 			System.out.println(k);
@@ -57,14 +57,14 @@ public class LoginFilter implements Filter {
 
 				break;
 			}
-		}
-		if (!haveCookie) {
+		}*/
+	/*	if (!haveCookie) {
 			Cookie cookie = new Cookie("userMessage", user.getUserName() + "-"
 					+ 0);
 			cookie.setComment("user_name");
 			cookie.setMaxAge(60 * 60 * 24 * 7);
 			((HttpServletResponse) resp).addCookie(cookie);
-		}
+		}*/
 		filterChain.doFilter(req, resp);
 	}
 

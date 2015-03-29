@@ -1,5 +1,6 @@
 package com.lubby.dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.lubby.bean.Account;
@@ -27,20 +29,34 @@ import com.lubby.db.DBUtil;
 public class AccountDAOImpl implements AccountDAO {
 	@Resource(name = "dbUtil")
 	private DBUtil dbUtil;
+	@Resource(name="jdbcTemplate")
+	private JdbcTemplate jdbcTemplate;
 
 	public boolean addAccount(Account account) {
 		String sql = "insert into t_account (user_id,cash) values(?,?)";
 		int result = 0;
 		PreparedStatement ps;
+//		Connection conn = this.dbUtil.getConnection();
 		try {
-			ps = this.dbUtil.getConnection().prepareStatement(sql);
-			ps.setString(1, account.getUserId());
-			ps.setLong(2, account.getCash());
+//			conn.setAutoCommit(false);
+//			conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+//			ps = this.dbUtil.getConnection().prepareStatement(sql);
+//			ps.setString(1, account.getUserId());
+//			ps.setLong(2, account.getCash());
 
-			result = ps.executeUpdate();
+//			result = ps.executeUpdate();
+//			conn.commit();
+			Object[] ojbs = {account.getUserId(),account.getCash()};
+			result = jdbcTemplate.update(sql, ojbs);
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+//			try {
+//				conn.rollback();
+//			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
 		}
 
 		return result == 1;
