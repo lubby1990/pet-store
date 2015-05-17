@@ -6,7 +6,7 @@ import java.util.List;
 public  interface UserService {
 	public  boolean addUser(User paramUser);
 
-	public  List<User> getAllUser(String paramString);
+	public  List<User> getAllUser();
 
 	public  User getUserByUserName(String paramString);
 

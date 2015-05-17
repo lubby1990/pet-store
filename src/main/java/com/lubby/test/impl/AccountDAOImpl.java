@@ -1,4 +1,4 @@
-package com.lubby.dao.impl;
+package com.lubby.test.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,7 +32,7 @@ public class AccountDAOImpl implements AccountDAO {
 	@Resource(name="jdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
 
-	public boolean addAccount(Account account) {
+	public int addAccount(Account account) {
 		String sql = "insert into t_account (user_id,cash) values(?,?)";
 		int result = 0;
 		PreparedStatement ps;
@@ -59,7 +59,7 @@ public class AccountDAOImpl implements AccountDAO {
 //			}
 		}
 
-		return result == 1;
+		return result;
 	}
 
 	public Account getAccountByUserId(String userId) {
@@ -124,9 +124,9 @@ public class AccountDAOImpl implements AccountDAO {
 		return list;
 	}
 
-	public boolean updateAccount(Account account) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//	public int updateAccount(Account account) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
 
 }

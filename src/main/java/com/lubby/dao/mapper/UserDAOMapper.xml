@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lubby.dao.UserDAO">
+	<resultMap type="com.lubby.bean.User" id="userResult">
+		<result column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
+		<result column="password" property="password"/>
+		<result column="nick_name" property="nickName"/>
+		<result column="gender" property="gender" typeHandler="com.lubby.typehandler.EnumTypeHandler"/>
+		<result column="address" property="address"/>
+		<result column="nation" property="nation"/>
+	</resultMap>
+<!-- 	<parameterMap type="com.lubby.bean.User" id="userParameter">
+		<parameter property="user_id" resultMap="userId"/>
+		<parameter property="user_name" resultMap="username"/>
+		<parameter property="password" resultMap="password"/>
+		<parameter property="nick_name" resultMap="nickName"/>
+		<parameter property="gender" resultMap="address"/>
+		<parameter property="address" resultMap="gender"/>
+		<parameter property="nation" resultMap="nation"/>
+	</parameterMap> -->
+	<select id="getAllUser"  resultMap="userResult">
+		select * from t_user 
+	</select>
+	<select id="getUserByUserName" parameterType="String" resultMap="userResult">
+		select * from t_user where user_name = #{userName}
+	</select>
+	<select id="getUserByUserNameAndPassWord" parameterType="map" resultMap="userResult">
+		select * from t_user where user_name = #{userName} and password = #{password}
+	</select>
+	<insert id="addUser" parameterType="com.lubby.bean.User">
+		insert into t_user (user_name,password ,nick_name,gender,address,nation) values(#{userName},#{password},#{nickName},#{gender,typeHandler=com.lubby.typehandler.EnumTypeHandler},#{address},#{nation})
+	</insert>
+</mapper>

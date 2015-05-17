@@ -9,9 +9,17 @@ import java.security.NoSuchAlgorithmException;
  *
  */
 
+
+/**
+ * 
+ * 
+ * 
+ * 可以通过  new BigInteger(bytes[] data)   ;   BigInteger.toString(16);来把128位二进制转换成32个16进制数
+ *
+ */
 public class MD5Util {
 	public static void main(String[] args){
-		String meg= "liu8217199";
+		String meg= "liubin";
 		System.out.println(getMD5(meg));
 	}
 

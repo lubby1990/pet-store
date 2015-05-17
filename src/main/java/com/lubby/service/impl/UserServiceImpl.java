@@ -4,10 +4,12 @@ import com.lubby.bean.Account;
 import com.lubby.bean.User;
 import com.lubby.dao.AccountDAO;
 import com.lubby.dao.UserDAO;
-import com.lubby.dao.impl.UserDAOImpl;
 import com.lubby.service.UserService;
+import com.lubby.test.impl.UserDAOImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -22,22 +24,25 @@ public class UserServiceImpl implements UserService {
 
 	public boolean addUser(User user) {
 		boolean success = false;
-		success = userDAO.addUser(user);
+		success = userDAO.addUser(user) == 1;
 		User savedUser = userDAO.getUserByUserName(user.getUserName());
 		Account account = new Account();
 		account.setUserId(savedUser.getUserId());
 		account.setCash(0L);
-		success = success && accountDAO.addAccount(account);
+		success = success && accountDAO.addAccount(account) == 1;
 		return success;
 	}
 
-	public List<User> getAllUser(String userName) {
-		return this.userDAO.getAllUser(userName);
+	public List<User> getAllUser() {
+		return this.userDAO.getAllUser();
 	}
 
 
 	public User loginCheck(String userName, String password) {
-		return this.userDAO.getUserByUserNameAndPassWord(userName, password);
+		Map<String, String> parameters = new HashMap<String, String> ();
+		parameters.put("userName", userName);
+		parameters.put("password", password);
+		return this.userDAO.getUserByUserNameAndPassWord(parameters);
 	}
 	
 	public User getUserByUserName (String userName){

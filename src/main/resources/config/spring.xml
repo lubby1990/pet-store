@@ -55,14 +55,24 @@
 		<!-- 1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程 -->
 		<property name="minEvictableIdleTimeMillis" value="10000" />
 		<property name="validationQuery" value="select * from t_user limit 1" />
-<!-- 		<property name="defaultAutoCommit" value="false"></property> -->
+		<!-- <property name="defaultAutoCommit" value="false"></property> -->
 	</bean>
 	<!-- <bean id="user" class="com.lubby.bean.User"></bean> -->
 	<!-- <bean id="cat" class="com.lubby.bean.SingleCat" factory-method="getInstance" 
 		/> -->
-	<bean id="dbUtil" class="com.lubby.db.DBUtil">
-		<constructor-arg ref="dataSource" />
+	<!-- <bean id="dbUtil" class="com.lubby.db.DBUtil"> <constructor-arg ref="dataSource" 
+		/> </bean> -->
+
+	<!-- 配置mybatis sqlSessionFactory -->
+	<bean id="sqlSesionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:config/MybatisConfig.xml"></property>
+		<property name="mapperLocations" value="classpath:com/lubby/dao/mapper/*Mapper.xml"></property>
 	</bean>
 
-
+	<!-- 扫描Mybatis接口类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.lubby.dao"></property>
+		<property name="sqlSessionFactoryBeanName" value="sqlSesionFactory"></property>
+	</bean>
 </beans>

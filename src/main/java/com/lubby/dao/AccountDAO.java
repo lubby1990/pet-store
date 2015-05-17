@@ -11,10 +11,10 @@ import com.lubby.bean.Account;
  */
 
 public interface AccountDAO {
-	public boolean addAccount(Account account);
+	public int addAccount(Account account);
 	public Account getAccountByUserId(String userId);
 	public Account getAccountByAccountId(String accountId);
 	public List<Account> getAllAccount();
-	public boolean updateAccount(Account account);
+//	public int updateAccount(Account account);
 
 }
